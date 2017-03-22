@@ -2,17 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-
-typedef enum BOOL { false, true } Boolean;
-
-// Linked list node definition
-typedef struct NODE Node;
-
-struct NODE
-{
-  char *string;
-  Node *next;
-};
+#include "table.h"
 
 static Node *top = NULL;
 static int numNodes = 0;
@@ -82,9 +72,11 @@ Boolean delete( char const * const target )
       top = curr->next;
     
     free( curr->string );
-    //assert( curr->string == NULL);
+    curr->string == NULL;
+    assert( curr->string == NULL);
     free( curr );
-    //assert( curr == NULL);
+    curr == NULL;
+    assert( curr == NULL);
     deleted = true;
     numNodes--;
   }
