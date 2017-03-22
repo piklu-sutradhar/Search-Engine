@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 typedef enum BOOL { false, true } Boolean;
 
@@ -21,6 +22,7 @@ static Node *traverseNode = NULL;
 
 int size( )
 {
+  assert( 0<= numNodes);
     return numNodes;
 }
     
@@ -31,15 +33,23 @@ Boolean insert( char const * const new_string )
   Node *newNode = NULL;
   
   newNode = (Node *)malloc( sizeof( Node ) );
-  
+  assert(newNode != NULL);
+  if (newNode != NULL){
   newNode->next = top;
   top = newNode;
   
   // note that we need to have space for the string as well!
   newNode->string = (char *)malloc( strlen(new_string) + 1 );
+  assert( newNode->string != NULL);
+  if( newNode->string != NULL){
   strcpy( newNode->string, new_string );
   numNodes++;
-  
+  }
+  else{
+    free(newNode);
+    rc = false;
+  }
+  }
   return rc;
 }
 
