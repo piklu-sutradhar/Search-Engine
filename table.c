@@ -25,6 +25,13 @@ int size( )
   assert( 0<= numNodes);
     return numNodes;
 }
+//Invariant
+void checkState(char const * const input){
+  assert( input != NULL);
+  assert( 0 <= strlen(input));
+  assert('\0' == input[strlen(input)]);
+  assert( 0 <= numNodes );
+}
     
 // add an element to the beginning of the linked list
 Boolean insert( char const * const new_string )
@@ -60,7 +67,7 @@ Boolean delete( char const * const target )
   Boolean deleted = false;
   Node *curr = top;
   Node *prev = NULL;
-  
+  checkState(target);
   while ( curr != NULL && strcmp( target, curr->string ) != 0 )
   {
     prev = curr;
@@ -75,7 +82,9 @@ Boolean delete( char const * const target )
       top = curr->next;
     
     free( curr->string );
+    //assert( curr->string == NULL);
     free( curr );
+    //assert( curr == NULL);
     deleted = true;
     numNodes--;
   }
@@ -88,11 +97,12 @@ Boolean search( char const * const target )
 {
   Boolean found = false;
   Node *curr = top;
-  
+  checkState(target);
   while ( curr != NULL && !found )
   {
     if ( strcmp( target, curr->string ) == 0 )
     {
+      assert( 0 == strcmp(target, curr->string));
       found = true;
     }
     
@@ -109,8 +119,9 @@ Boolean search( char const * const target )
 // starts a list traversal by getting the data at top
 char * firstItem()
 {
+  assert( top != NULL);
   traverseNode = top->next;
-  
+  checkState(top->string);
   return top->string;
 }
 
@@ -119,11 +130,12 @@ char * firstItem()
 char * nextItem()
 {
   char *item = NULL;
-  
+  assert( traverseNode != NULL);
   // no need to go past the end of the list...
   if ( traverseNode != NULL )
   {
     item = traverseNode->string;
+    checkState( item );
     traverseNode = traverseNode->next;
   }
   
