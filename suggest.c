@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "engine.h"
+#include "table.h"
 
 #define MAX 600
 
@@ -11,7 +12,7 @@ int main(int argc, char const *argv[])
 {
 	FILE *dict;
 	char input[ MAX ];
-    char *similar;
+    char similar[MAX];
     int counter = 0;
     if (argc < 2){
     printf("One Argument Expected\n");
@@ -32,8 +33,8 @@ int main(int argc, char const *argv[])
 		assert(dict != NULL );
         if(dict != NULL){
 		printf("What word should i check? " );
-        char ch = fgetc(stdin)
-        while(ch != '\n' || ch != EOF){
+        char ch = fgetc(stdin);
+        while(ch != '\n'){
             if(isalpha(ch)){
                 input[counter++] = ch;
             }
@@ -42,23 +43,25 @@ int main(int argc, char const *argv[])
         input[counter] = '\0';
         buildTable(dict,input,similar);
         printf("\nDid you mean... %s?\n", similar );
-		printf("\nThere are %d other similar words, would you like 
-        to see them? (y/n) ", size());
+        int similarWords = size();
+		printf("\nThere are %d other similar words, would you like to see them? (y/n) ", similarWords);
         ch = tolower(getc(stdin));
         fgetc(stdin);
         do{
             if (ch == 'y'){
                 pager();
+                return EXIT_SUCCESS;
             }
             else if (ch == 'n'){
                 deleteTable();
+                return EXIT_SUCCESS;
              }
             else{
                 printf("\nEnter y/n and press \"enter\" ");
                 ch = tolower(fgetc(stdin));
                 fgetc(stdin);
                 }   
-            }while(ch != 'y' || ch != 'n');
+            }while(ch == 'y' || ch == 'n');
             fclose(dict);
             }   
         }

@@ -1,15 +1,23 @@
 CC = clang
 CFLAGS = -g -Wall
 
-PROG = main
+PROG = suggest
+PROG1 = main
 
 OBJDIR = objects
-OBJS = $(OBJDIR)/main.o $(OBJDIR)/table.o
-
+OBJS = $(OBJDIR)/suggest.o $(OBJDIR)/engine.o $(OBJDIR)/table.o $(OBJDIR)/levenshtein.o
+OBJS1 = $(OBJDIR1)/main.o $(OBJDIR1)/table.o
 
 # ... and in the darkness bind them (er, link them)
 $(PROG): $(OBJS) $(OBJDIR)
 	$(CC) $(CFLAGS) $(OBJS) -o $(PROG)
+
+$(PROG1): $(OBJS1) $(OBJDIR)
+  $(CC) $(CFLAGS) $(OBJS1) -o $(PROG1) 
+
+$(OBJDIR)/levenshtein.o:
+	$(MAKE) -C levenshtein.c
+	cp levenshtein.c/levenshtein.o $(OBJDIR)
 
 # One rule to build them all...
 $(OBJDIR)/%.o: %.c $(OBJDIR)
@@ -26,4 +34,4 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 clean:
-	rm -rf $(OBJDIR) $(PROG)
+	rm -rf $(OBJDIR) $(PROG) $(PROG1)

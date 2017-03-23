@@ -111,7 +111,7 @@ Boolean search( char const * const target )
 // starts a list traversal by getting the data at top
 char * firstItem()
 {
-  assert( top != NULL);
+  //assert( top != NULL);
   traverseNode = top->next;
   checkState(top->string);
   return top->string;

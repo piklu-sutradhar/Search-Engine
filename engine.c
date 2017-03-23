@@ -4,7 +4,7 @@
 #include <string.h>
 #include <assert.h>
 #include "table.h"
-#include "levenshtein.h"
+#include "levenshtein.c/levenshtein.h"
 #include "engine.h"
 
 #define LENGTH 200
@@ -37,47 +37,38 @@ void pager() {
 	char checker = '\n';
 	char *result = firstItem();
 
-	while ( checker == '\n' && result != NULL ) {
-
-		for (int i = 0; i < 10; i++)
+	do{
+ if(checker == '\n'){
+		for (int i = 0; i < 10 && result != NULL ; i++)
 
 		{
 		printf("%s\n", result); 
 		result = nextItem();
 		
 		}
-
-		printf("\n");
-
-		checker = fgetc( stdin );
-
-	}
+   }
+   else if (checker == 'q'){
+   return;
+   }
+   else{
+printf("To quit enter q");
 }
+		checker = fgetc( stdin );
+   //fgetc(stdin);
 
-// char * removeDigit(char * const input){
-//     int i = 0, j= 0;
-//     char * result = malloc(strlen(input) * sizeof(char));
-//     if(result != NULL){
-//         for(i = 0; *(input + i)!= '\0'; i++){
-//            if(isalpha(*(input + i))){
-//                (result + 0) = (char) *(input + i);
-//            }
-//         }
-//     }
-//     else{
-//         free(result);
-//         result = NULL;
-//     }
-//     return result;
-// }
+	}while ( (checker == '\n' || checker == 'q') && result != NULL) ;
+}
 void toLower( char * const input){
     int i =0;
     for(i = 0;*(input + i) != '\0';i++){
-       *(input + i) = tolower(*(input + i)) 
+       *(input + i) = tolower(*(input + i)); 
     }
 }
 void deleteTable(){
-    while(firstItem){
-        delete(firstItem);
+char *item = firstItem();
+    while(item){
+        delete(item);
+        item = nextItem();
     }
+    //return ;
 }
