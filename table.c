@@ -72,10 +72,10 @@ Boolean delete( char const * const target )
       top = curr->next;
     
     free( curr->string );
-    curr->string == NULL;
+    curr->string = NULL;
     assert( curr->string == NULL);
     free( curr );
-    curr == NULL;
+    curr = NULL;
     assert( curr == NULL);
     deleted = true;
     numNodes--;
@@ -122,7 +122,7 @@ char * firstItem()
 char * nextItem()
 {
   char *item = NULL;
-  assert( traverseNode != NULL);
+  //assert( traverseNode != NULL);
   // no need to go past the end of the list...
   if ( traverseNode != NULL )
   {

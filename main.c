@@ -7,9 +7,9 @@
 //***********
 //Constant
 //***********
-#define LENGTH 8;
+#define LENGTH 8
 static int testsFailed = 0;
-static int tetsExecuted = 0;
+static int testsExecuted = 0;
 
 //*****************
 // Prototypes
@@ -26,9 +26,8 @@ void testSearch( char const * const target);
 void testTraversal();
 
 int main( int argc, char *argv[]){
-    int i;deleted=0;
-     char *array[LENGTH];
-     array = { "Hello" ,"World", "!", "\n", "How", "", "are", "you"};
+    int i,deleted=0;
+     char *array[] = { "Hello" ,"World", "!", "\n", "How", "", "are", "you"};
      assert( 0<= size());
      testSize(0);
      for( i = LENGTH-1; i>=0 ;i--){
@@ -45,13 +44,10 @@ int main( int argc, char *argv[]){
         // testSize(i+1);
      }
      testTraversal();
-     for( i= 0; i< 5; i++){
-         delete( array[i] );
-         deleted++;
-     }
-     for( i= 0; i< 5; i++){
+     //delete( array[LENGTH -1] );
+     for( i= 1; i< 5; i++){
          testDelete( array[i] );
-        // deleted++;
+         deleted++;
      }
      testSize(LENGTH - deleted);
      testTraversal();
@@ -71,17 +67,17 @@ int main( int argc, char *argv[]){
 
 void testSize(int expectedSize){
 if (expectedSize != size()){
-    testFailed++;
+    testsFailed++;
     printf("Expected size is %d , but the actual size is %d", expectedSize, size());
 }
-testExecuted++;
+testsExecuted++;
 }
 
 void testInsert(char const * const target){
     char *topItem = firstItem();
-    	if ( strcmp( topData, expected ) != 0 ) {
+    	if ( strcmp( topItem, target ) != 0 ) {
 
-		printf( "\nFAILURE: Expected %s Found %s\n", expected, topData );
+		printf( "\nFAILURE: Expected %s Found %s\n", target, topItem );
 		testsFailed++;
 	}
 
