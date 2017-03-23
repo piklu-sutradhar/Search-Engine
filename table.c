@@ -126,6 +126,7 @@ char * nextItem()
   // no need to go past the end of the list...
   if ( traverseNode != NULL )
   {
+    assert( traverseNode != NULL);
     item = traverseNode->string;
     checkState( item );
     traverseNode = traverseNode->next;

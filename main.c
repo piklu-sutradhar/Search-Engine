@@ -27,7 +27,7 @@ void testTraversal();
 
 int main( int argc, char *argv[]){
     int i,deleted=0;
-     char *array[] = { "Hello" ,"World", "!", "\n", "How", "", "are", "you"};
+     char *array[] = { "Hello" ,"Wor\0ld", "!", "\n", "How", "", "are", "you"};
      assert( 0<= size());
      testSize(0);
      for( i = LENGTH-1; i>=0 ;i--){
