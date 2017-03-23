@@ -114,7 +114,7 @@ void testTraversal(){
 	//printf("%s\n", result );
 
 	while ( result != NULL ) {
-
+        printf("%s", result );
 		numNodes++;
 		result = nextItem();
 		
