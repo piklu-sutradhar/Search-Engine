@@ -1,10 +1,10 @@
 CC = clang
 CFLAGS = -g -Wall
 
-PROG = suggest
+PROG = main
 
 OBJDIR = objects
-OBJS = $(OBJDIR)/suggest.o $(OBJDIR)/engine.o $(OBJDIR)/table.o $(OBJDIR)/levenshtein.o
+OBJS = $(OBJDIR)/main.o $(OBJDIR)/table.o
 
 
 # ... and in the darkness bind them (er, link them)
