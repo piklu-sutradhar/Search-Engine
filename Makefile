@@ -1,37 +1,27 @@
 CC = clang
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall 
+COMMON_SOURCES = engine.c levenshtein.c/levenshtein.c ../q1/table.c
+TARGET_SOURCES = suggest.c
+TEST_SOURCES = test.c
+COMMON_OBJECTS = $(COMMON_SOURCES:.c=.o)
+TARGET_OBJECTS = $(TARGET_SOURCES:.c=.o)
+TEST_OBJECTS = $(TEST_SOURCES:.c=.o)
+EXECUTABLE = prog
+TEST_EXECUTABLE = test
 
-PROG = test
-PROG1 = suggest
+.PHONY: all target tests
 
-OBJDIR = objects
-OBJS = $(OBJDIR)/test.o $(OBJDIR)/engine.o $(OBJDIR)/table.o $(OBJDIR)/levenshtein.o
-OBJS1 = $(OBJDIR)/suggest.o $(OBJDIR)/engine.o $(OBJDIR)/table.o $(OBJDIR)/levenshtein.o
+all: target tests
 
-# ... and in the darkness bind them (er, link them)
-$(PROG): $(OBJS) $(OBJDIR)
-	$(CC) $(CFLAGS) $(OBJS) -o $(PROG)
- 
-$(PROG1): $(OBJS1) $(OBJDIR)
-	$(CC) $(CFLAGS) $(OBJS1) -o $(PROG1)
+target: $(EXECUTABLE)
 
-$(OBJDIR)/levenshtein.o:
-	$(MAKE) -C levenshtein.c
-	cp levenshtein.c/levenshtein.o $(OBJDIR)
+tests: $(TEST_EXECUTABLE)
 
-# One rule to build them all...
-$(OBJDIR)/%.o: %.c $(OBJDIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(EXECUTABLE): $(COMMON_OBJECTS) $(TARGET_OBJECTS)
+	$(CC) $^ -o $@
 
-# $@ is a variable with the name of the file that caused the rule
-# to run. We've got multiple .c files, and thus multiple .o files,
-# so each one of the .c files will create a separate .o file.
-# $< is the name of the first prerequisite (in this case the .c)
-# file. So our recipe will expand to something like:
-# 	$(CC) $(CFLAGS) -c -o myfile.o myfile.c
+$(TEST_EXECUTABLE): $(COMMON_OBJECTS) $(TEST_OBJECTS)
+	$(CC) $^ -o $@
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
-
-clean:
-	rm -rf $(OBJDIR) $(PROG) $(PROG1)
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@
