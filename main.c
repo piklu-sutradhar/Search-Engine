@@ -27,13 +27,14 @@ void testTraversal();
 
 int main( int argc, char *argv[]){
     int i,deleted=0;
-     char *array[] = { "Hello" ,"Wor\0ld", "!", "\n", "How", "", "are", "you"};
+    char toFail[] = "To Make The function fail";
+     char *array[] = { "Hello" ,"World", "!", "706", "How", "", "are", "you"};
      assert( 0<= size());
      testSize(0);
-     for( i = LENGTH-1; i>=0 ;i--){
+     for( i = 0; i< LENGTH ;i++){
          insert( array[i] );
         testInsert( array[i] );
-         //testSize(i+1);
+         testSize(i+1);
 
      }
       //testInsert( array[5] );
@@ -51,7 +52,8 @@ int main( int argc, char *argv[]){
      }
      testSize(LENGTH - deleted);
      testTraversal();
-
+     testSearch(array[0]);
+     testSearch(toFail);
     printf("\nTotal number of tests executed: %d\n" , testsExecuted);
 	printf("Number of tests passed: %d \n" , (testsExecuted - testsFailed));
 	printf("Number of tests failed: %d\n" , testsFailed);
@@ -68,7 +70,10 @@ int main( int argc, char *argv[]){
 void testSize(int expectedSize){
 if (expectedSize != size()){
     testsFailed++;
-    printf("Expected size is %d , but the actual size is %d", expectedSize, size());
+    printf("FAILED: Expected size is %d , but the actual size is %d\n", expectedSize, size());
+}
+else{
+printf("SUCCESS : Size is as expected\n");
 }
 testsExecuted++;
 }
@@ -77,9 +82,12 @@ void testInsert(char const * const target){
     char *topItem = firstItem();
     	if ( strcmp( topItem, target ) != 0 ) {
 
-		printf( "\nFAILURE: Expected %s Found %s\n", target, topItem );
+		printf( "\nFAILED: Expected %s Found %s\n", target, topItem );
 		testsFailed++;
 	}
+ else{
+ printf("SUCCESS : Inserted \" %s \"\n", target);
+ }
 
 	testsExecuted++;
 
@@ -89,10 +97,12 @@ void testDelete(char const * const target){
 	Boolean result = delete( target );
 
 	if ( !result ) {
-		printf("\nFAILURE: Could not delete \"%s\"\n", target );
+		printf("\nFAILED: Could not delete \"%s\"\n", target );
 		testsFailed++;
 	}
-
+ else{
+ printf("SUCCESS : Deleted \" %s \"\n", target);
+ }
 	testsExecuted++;
 }
 void testSearch( char const * const target){
@@ -100,9 +110,12 @@ Boolean result = search( target );
 
 	if ( !result ) {
 
-		printf( "\nFAILURE: Could not search \"%s\"\n", target );
+		printf( "\nFAILURE: Could not find \"%s\"\n", target );
 		testsFailed++;
 	}
+  else{
+ printf("SUCCESS : Found \" %s \"\n", target);
+ }
 
 	testsExecuted++;
 
@@ -114,17 +127,18 @@ void testTraversal(){
 	//printf("%s\n", result );
 
 	while ( result != NULL ) {
-        printf("%s", result );
+       // printf("%s", result );
 		numNodes++;
 		result = nextItem();
 		
 	}
 
 	if ( numNodes != size() ) {
-		printf("\n%s %d %d", "Linked list traversal failed, Expected Num: ", size(), numNodes );
+		printf("FAILED: Linked list traversal, Expected Number of Nodes: %d, Travelled : %d\n", size(), numNodes );
 		testsFailed++;
-
 	}
-
+  else{
+ printf("SUCCESS : Travelled entire table\n");
+ }
 	testsExecuted++;
 }

@@ -1,19 +1,19 @@
 CC = clang
 CFLAGS = -g -Wall
 
-PROG = suggest
-PROG1 = main
+PROG = test
+PROG1 = suggest
 
 OBJDIR = objects
-OBJS = $(OBJDIR)/suggest.o $(OBJDIR)/engine.o $(OBJDIR)/table.o $(OBJDIR)/levenshtein.o
-OBJS1 = $(OBJDIR1)/main.o $(OBJDIR1)/table.o
+OBJS = $(OBJDIR)/test.o $(OBJDIR)/engine.o $(OBJDIR)/table.o $(OBJDIR)/levenshtein.o
+OBJS1 = $(OBJDIR)/suggest.o $(OBJDIR)/engine.o $(OBJDIR)/table.o $(OBJDIR)/levenshtein.o
 
 # ... and in the darkness bind them (er, link them)
 $(PROG): $(OBJS) $(OBJDIR)
 	$(CC) $(CFLAGS) $(OBJS) -o $(PROG)
-
+ 
 $(PROG1): $(OBJS1) $(OBJDIR)
-  $(CC) $(CFLAGS) $(OBJS1) -o $(PROG1) 
+	$(CC) $(CFLAGS) $(OBJS1) -o $(PROG1)
 
 $(OBJDIR)/levenshtein.o:
 	$(MAKE) -C levenshtein.c

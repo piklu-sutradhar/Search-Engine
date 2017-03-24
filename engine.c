@@ -8,67 +8,65 @@
 #include "engine.h"
 
 #define LENGTH 200
+static int minDistance = 5;
+//static char wordsInDict[LENGTH];
+void checkWords(char const * const input){
+  assert( input != NULL);
+  assert( 0 <= strlen(input));
+  assert('\0' == input[strlen(input)]);
+}
 
-static char wordsInDict[LENGTH];
-
-void buildTable( FILE *dict, char *input, char * similar){
-    int minDist , dist;
-    if(fgets(wordsInDict, LENGTH, dict)){
-        wordsInDict[strlen(wordsInDict)-1] = '\0';
-        toLower(wordsInDict);
-        strcpy(similar, wordsInDict);
-        minDist = levenshtein(wordsInDict, input);
-        while(fgets(wordsInDict, LENGTH, dict)){
-            wordsInDict[strlen(wordsInDict)-1] = '\0';
-            toLower(wordsInDict);
-            dist = levenshtein(wordsInDict, input);
-            if(dist < minDist){
-                minDist = dist;
-                strcpy(similar, wordsInDict);
+void buildTable( char *dictWord, char *input, char * similar){
+    int  dist;
+    checkWords(input);
+    checkWords( dictWord);
+        toLower(dictWord);
+        dist = levenshtein(dictWord, input);
+        assert(dist >= 0);
+        removeDigit(input);
+        toLower(input);
+        dist = levenshtein(dictWord, input);
+        if(dist < 5){
+          if(dist < minDistance){
+            minDistance = dist;
+            strcpy(similar, dictWord);
+            checkWords(similar);
             }
-            if(dist < 5){
-                insert(wordsInDict);
+            insert(dictWord);
             }
         }
-    }
-}
-void pager() {
 
-	char checker = '\n';
-	char *result = firstItem();
-
-	do{
- if(checker == '\n'){
-		for (int i = 0; i < 10 && result != NULL ; i++)
-
-		{
-		printf("%s\n", result); 
-		result = nextItem();
-		
-		}
-   }
-   else if (checker == 'q'){
-   return;
-   }
-   else{
-printf("To quit enter q");
-}
-		checker = fgetc( stdin );
-   //fgetc(stdin);
-
-	}while ( (checker == '\n' || checker == 'q') && result != NULL) ;
-}
 void toLower( char * const input){
+    checkWords(input);
     int i =0;
     for(i = 0;*(input + i) != '\0';i++){
        *(input + i) = tolower(*(input + i)); 
     }
+    checkWords(input);
+}
+void removeDigit(char * input){
+  int i, j =0;
+  checkWords(input);
+  char newInput[LENGTH];
+  for(i = 0;*(input + i) != '\0';i++){
+    if(isalpha(*(input + i))){
+      newInput[j++] = *(input + i);
+      }
+  }
+  *(newInput + j) = '\0';
+  strcpy(input,newInput);
+  checkWords(input);
 }
 void deleteTable(){
+assert(size()>=0);
+if(size() > 0){
 char *item = firstItem();
     while(item){
         delete(item);
         item = nextItem();
+      }
     }
-    //return ;
+}
+int getSize(){
+return size();
 }
